@@ -170,7 +170,7 @@ public class DisplayFrame extends javax.swing.JFrame {
 }
         }
         String str[] = new String[1];
-        DecimalFormat    df   = new DecimalFormat("######0.00");
+        DecimalFormat   df  = new DecimalFormat("######0.00");
         str[0] = df.format(percentage);
         
         
