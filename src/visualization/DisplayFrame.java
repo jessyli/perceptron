@@ -1,6 +1,7 @@
 package visualization;
 
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,6 +28,7 @@ import static perceptron.Loaddata.loadData;
  */
 public class DisplayFrame extends javax.swing.JFrame {
 
+    static Algorithm algorithm = new Algorithm();
     /**
      * Creates new form DisplayFrame
      */
@@ -51,6 +53,8 @@ public class DisplayFrame extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,6 +83,15 @@ public class DisplayFrame extends javax.swing.JFrame {
 
         jTextField4.setText("jTextField4");
 
+        jLabel1.setText("percentage");
+
+        jTextField5.setText("jTextField5");
+        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -86,20 +99,26 @@ public class DisplayFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
                                 .addComponent(proccessBtn)
-                                .addGap(30, 30, 30)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(30, 30, 30))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel5)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(46, 46, 46)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(46, 46, 46)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(62, 62, 62)
+                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(51, Short.MAX_VALUE))
         );
@@ -119,7 +138,11 @@ public class DisplayFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 35, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 1, Short.MAX_VALUE))
         );
 
         pack();
@@ -130,8 +153,8 @@ public class DisplayFrame extends javax.swing.JFrame {
     private void proccessBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proccessBtnActionPerformed
         // TODO add your handling code here:
         //featureTbl.addColumn(new TableColumn());
-        Algorithm algorithm = new Algorithm();
         
+        double percentage = algorithm.getpercentage();
         double[] weights = algorithm.getWeight();
         List<List<Object>> dataList = weightTblModel.getDataList();
         for(int i=0; i<weights.length; i++) {
@@ -139,21 +162,37 @@ public class DisplayFrame extends javax.swing.JFrame {
             item.set(1, weights[i]);
         }
         
-       double[][] m = algorithm.getconfusionmatrix();
-        for(int i=0; i<4; i++) {
-            System.out.println(m[i/2][i%2]);
+       String[][] m = new String[2][2];
+        for(int i=0; i<2; i++) {
+            for(int j=0; j<2; j++){
+           m[i][j] = Double.toString(algorithm.getconfusionmatrix()[i][j]);
+            System.out.println(algorithm.getconfusionmatrix()[i][j]);
 }
-        jTextField1.setText(algorithm.getconfusionmatrix()[0][0]+"");
-        jTextField2.setText(algorithm.getconfusionmatrix()[0][1]+"");
-        jTextField3.setText(algorithm.getconfusionmatrix()[1][0]+"");
-        jTextField4.setText(algorithm.getconfusionmatrix()[1][1]+"");
+        }
+        String str[] = new String[1];
+        DecimalFormat    df   = new DecimalFormat("######0.00");
+        str[0] = df.format(percentage);
+        
+        
+        jTextField1.setText(m[0][0]);
+        jTextField2.setText(m[0][1]);
+        jTextField3.setText(m[1][0]);
+        jTextField4.setText(m[1][1]);
+        jTextField5.setText(str[0]);
         
         featureTbl.repaint();
     }//GEN-LAST:event_proccessBtnActionPerformed
 
+    public static void set(Algorithm a){
+        algorithm = a;
+    }
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,6 +243,7 @@ public class DisplayFrame extends javax.swing.JFrame {
         algorithm.setTraindatalist(traindatalist);
         algorithm.train(traindatalist);
         algorithm.test(testdatalist);
+        DisplayFrame.set(algorithm);
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -215,12 +255,14 @@ public class DisplayFrame extends javax.swing.JFrame {
     DisplayModel2Table DisplayModel2Table = new DisplayModel2Table();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable featureTbl;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     private javax.swing.JButton proccessBtn;
     // End of variables declaration//GEN-END:variables
 }

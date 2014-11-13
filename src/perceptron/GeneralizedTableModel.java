@@ -24,12 +24,12 @@ public class GeneralizedTableModel extends AbstractTableModel {
     }
     
     public void init() {
-        titleList.add("DocumentID");
+        titleList.add("featureID");
         titleList.add("weight");
         
         Random rand = new Random();
-        Double[] weights = new Double[862];
-        for(int i=0; i<862; i++) {
+        Double[] weights = new Double[18];
+        for(int i=0; i<18; i++) {
             weights[i] = rand.nextDouble() * 2 - 1;
         }
         
