@@ -14,6 +14,7 @@ import perceptron.Algorithm;
 import perceptron.Datastructrue;
 import perceptron.DisplayModel2Table;
 import perceptron.GeneralizedTableModel;
+import perceptron.Loaddata;
 import static perceptron.Loaddata.getfearture;
 import static perceptron.Loaddata.loadData;
 
@@ -225,19 +226,37 @@ public class DisplayFrame extends javax.swing.JFrame {
         List<Datastructrue> traindatalist = new ArrayList<Datastructrue>();
         List<Datastructrue> testdatalist = new ArrayList<Datastructrue>();
         int traindatasize = (int) (featureList.size() * 0.9);
-        for (int i = 0; i < traindatasize; i++) {
+        int negativenum = Loaddata.negativenum;
+        int positivenum = Loaddata.positivenum;
+        for (int i = 0; i < (int)(positivenum*0.9); i++) {
             Datastructrue data = new Datastructrue();
             data.setFeature(doubleFeatureList.get(i).getFeature());
             data.setLabel(doubleFeatureList.get(i).getLabel());
             traindatalist.add(data);
         }
-        for (int i = traindatasize; i < featureList.size(); i++) {
+        for (int i = positivenum; i < (positivenum + (int)(negativenum*0.9)); i++) {
+            Datastructrue data = new Datastructrue();
+            data.setFeature(doubleFeatureList.get(i).getFeature());
+            data.setLabel(doubleFeatureList.get(i).getLabel());
+            traindatalist.add(data);
+        }
+        for (int i = (int)(positivenum*0.9); i < positivenum; i++) {
+            Datastructrue data = new Datastructrue();
+            data.setFeature(doubleFeatureList.get(i).getFeature());
+            data.setLabel(doubleFeatureList.get(i).getLabel());
+            System.out.println(data.getLabel());
+            testdatalist.add(data);
+        }
+        for (int i = (positivenum+(int)(negativenum*0.9)); i < positivenum+negativenum; i++) {
             Datastructrue data = new Datastructrue();
             data.setFeature(doubleFeatureList.get(i).getFeature());
             data.setLabel(doubleFeatureList.get(i).getLabel());
             testdatalist.add(data);
         }
 
+        System.out.println("traindatalistsize"+traindatalist.size());
+        System.out.println("testdatalistsize"+testdatalist.size());
+        System.out.println("featuredatalistsize"+featureList.size());
         Algorithm algorithm = new Algorithm();
         algorithm.setTestdatalist(testdatalist);
         algorithm.setTraindatalist(traindatalist);

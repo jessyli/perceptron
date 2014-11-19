@@ -12,6 +12,8 @@ public class Loaddata {
 
 //static  List<Datastructrue> doubleFeatureList = new ArrayList<Datastructrue>();
 
+   public static int positivenum = 0;
+   public static int negativenum = 0;
 
     public static List<String[]> loadData(String path) {
         List<String[]> featureList = new ArrayList<String[]>();
@@ -36,12 +38,12 @@ public class Loaddata {
 
                 featureList.add(split);
             }
-            for (int i = 0; i < featureList.size(); i++) {
-                for (int j = 0; j < 10; j++) {
-                    System.out.print(featureList.get(i)[j] + " ");
-                }
-                System.out.println();
-            }
+//            for (int i = 0; i < featureList.size(); i++) {
+//                for (int j = 0; j < 10; j++) {
+//                    System.out.print(featureList.get(i)[j] + " ");
+//                }
+//                System.out.println();
+//            }
         } catch (FileNotFoundException e) {
             System.out.println("can't find the file");
         } catch (IOException e) {
@@ -64,9 +66,11 @@ public class Loaddata {
             Datastructrue data = new Datastructrue();
             if (featureList.get(i)[9].equals("positive")) {
                 data.setLabel(1);
+                positivenum ++;
                 // doubleFeatureList.get(i).setLabel(1);
             } else {
                 data.setLabel(-1);
+                negativenum++;
                 // doubleFeatureList.get(i).setLabel(-1);
             }
             double[] features = new double[18];
@@ -98,20 +102,37 @@ public class Loaddata {
         List<Datastructrue> doubleFeatureList = getfearture(featureList);
         List<Datastructrue> traindatalist = new ArrayList<Datastructrue>();
         List<Datastructrue> testdatalist = new ArrayList<Datastructrue>();
-        int traindatasize = (int) (featureList.size() * 0.9);
-        for (int i = 0; i < traindatasize; i++) {
+        System.err.println("p:"+positivenum + "\tn:"+negativenum);
+        for (int i = 0; i < (int)(positivenum*0.9); i++) {
             Datastructrue data = new Datastructrue();
             data.setFeature(doubleFeatureList.get(i).getFeature());
             data.setLabel(doubleFeatureList.get(i).getLabel());
             traindatalist.add(data);
         }
-        for (int i = traindatasize; i < featureList.size(); i++) {
+        for (int i = positivenum; i < (positivenum + (int)(negativenum*0.9)); i++) {
+            Datastructrue data = new Datastructrue();
+            data.setFeature(doubleFeatureList.get(i).getFeature());
+            data.setLabel(doubleFeatureList.get(i).getLabel());
+            traindatalist.add(data);
+        }
+        for (int i = (int)(positivenum*0.9); i < positivenum; i++) {
+            Datastructrue data = new Datastructrue();
+            data.setFeature(doubleFeatureList.get(i).getFeature());
+            data.setLabel(doubleFeatureList.get(i).getLabel());
+            System.out.println(data.getLabel());
+            testdatalist.add(data);
+        }
+        for (int i = (positivenum+(int)(negativenum*0.9)); i < positivenum+negativenum; i++) {
             Datastructrue data = new Datastructrue();
             data.setFeature(doubleFeatureList.get(i).getFeature());
             data.setLabel(doubleFeatureList.get(i).getLabel());
             testdatalist.add(data);
         }
 
+
+        System.out.println("traindatalistsize"+traindatalist.size());
+        System.out.println("testdatalistsize"+testdatalist.size());
+        System.out.println("featuredatalistsize"+featureList.size());
         Algorithm algorithm = new Algorithm();
         algorithm.setTestdatalist(testdatalist);
         algorithm.setTraindatalist(traindatalist);

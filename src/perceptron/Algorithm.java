@@ -2,7 +2,6 @@ package perceptron;
 
 import java.util.List;
 import java.util.Random;
-import java.text.DecimalFormat; 
 
 public class Algorithm {
 
@@ -27,7 +26,7 @@ public class Algorithm {
         h = new double[traindatalist.size()];
     }
 
-    double alpha = 0.0000001;
+    double alpha = 0.00001;
     double[] weight = new double[18];
     Random ran = new Random();
     double[] h = null;
@@ -95,9 +94,13 @@ public class Algorithm {
         }
         System.out.println(J);
       
-       
+        
         for (int i = 0; i < testdatalist.size(); i++) {
+        	System.out.println("test"+testdatalist.get(i).getLabel()+"h[i]"+h[i]);
             if ((h[i] * testdatalist.get(i).getLabel()) > 0) {
+               
+                
+              // System.out.println(testdatalist.size());
                 percentage++;
             }
             if (h[i] > 0 && testdatalist.get(i).getLabel() > 0) {
@@ -114,8 +117,9 @@ public class Algorithm {
             }
 
         }
+        System.out.println(percentage);
         percentage = percentage / testdatalist.size();
-        
+        System.out.println(percentage);
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 2; i++) {
                 System.out.println("***" + confusionmatrix[i][j]);
