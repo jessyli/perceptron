@@ -73,6 +73,7 @@ public class Algorithm {
 
                 }
                 sum[z] = alpha * sum[z];
+                alpha = alpha * 0.999;
                 weight[z] = weight[z] + sum[z];
             }
         }

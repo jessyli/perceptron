@@ -67,10 +67,12 @@ public class Loaddata {
             if (featureList.get(i)[9].equals("positive")) {
                 data.setLabel(1);
                 positivenum ++;
+                System.out.println("positive"+positivenum);
                 // doubleFeatureList.get(i).setLabel(1);
             } else {
                 data.setLabel(-1);
                 negativenum++;
+                System.out.println("negative"+negativenum);
                 // doubleFeatureList.get(i).setLabel(-1);
             }
             double[] features = new double[18];
@@ -102,7 +104,7 @@ public class Loaddata {
         List<Datastructrue> doubleFeatureList = getfearture(featureList);
         List<Datastructrue> traindatalist = new ArrayList<Datastructrue>();
         List<Datastructrue> testdatalist = new ArrayList<Datastructrue>();
-        System.err.println("p:"+positivenum + "\tn:"+negativenum);
+//        System.err.println("p:"+positivenum + "\tn:"+negativenum);
         for (int i = 0; i < (int)(positivenum*0.9); i++) {
             Datastructrue data = new Datastructrue();
             data.setFeature(doubleFeatureList.get(i).getFeature());

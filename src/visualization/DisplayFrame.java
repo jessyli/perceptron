@@ -167,7 +167,7 @@ public class DisplayFrame extends javax.swing.JFrame {
         for(int i=0; i<2; i++) {
             for(int j=0; j<2; j++){
            m[i][j] = Double.toString(algorithm.getconfusionmatrix()[i][j]);
-            System.out.println(algorithm.getconfusionmatrix()[i][j]);
+            //System.out.println(algorithm.getconfusionmatrix()[i][j]);
 }
         }
         String str[] = new String[1];
@@ -244,7 +244,7 @@ public class DisplayFrame extends javax.swing.JFrame {
             Datastructrue data = new Datastructrue();
             data.setFeature(doubleFeatureList.get(i).getFeature());
             data.setLabel(doubleFeatureList.get(i).getLabel());
-            System.out.println(data.getLabel());
+            //System.out.println(data.getLabel());
             testdatalist.add(data);
         }
         for (int i = (positivenum+(int)(negativenum*0.9)); i < positivenum+negativenum; i++) {
